@@ -1,20 +1,25 @@
 import React, { useState } from "react";
-import { ScrollView,Text,View, StyleSheet, Alert } from "react-native";
+import { ScrollView,Text,View, StyleSheet, Alert, TouchableOpacity } from "react-native";
 import { useHeaderHeight } from '@react-navigation/elements';
 import colors from "../misc/colors";
 import RoundIconBtn from "./RoundIconBtn";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useNotes} from '../contexts/NoteProvider'
 import NoteInputModal from "./NoteInputModal";
+import BottomPopup from "./BottomPopup";
+
+
 const formatDate = (ms)=>{
     const date = new Date(ms)
     const day = date.getDate()
-    const month = date.getMonth()
+    const month = date.getMonth()+1
     const year = date.getFullYear()
     const hrs = date.getHours()
     const min = date.getMinutes()
     return `${month}/${day}/${year} - ${hrs}:${min}`
 }
+
+
 
 const NoteDetail = (props)=>{
     const [note,setNote] = useState(props.route.params.note)
@@ -22,6 +27,7 @@ const NoteDetail = (props)=>{
     const {setNotes} = useNotes()
     const [showModal,setShowModal] = useState(false)
     const [isEdit,setIsEdit] = useState(false)
+    const [isFocus, setisFocus] = useState(false);
     const deleteNote =async()=>{
         const result = await AsyncStorage.getItem('notes')
         let notes = []
@@ -69,14 +75,26 @@ const NoteDetail = (props)=>{
         setIsEdit(true)
         setShowModal(true)
     }
+
+
     return(
         <>
             <ScrollView contentContainerStyle={[styles.container,{paddingTop : headerHeight}]}>
                 <Text style={styles.time}> {note.isUpdated 
                                             ? `Updated at: ${formatDate(note.time)}`
                                             :`Created at: ${formatDate(note.time)}`}</Text>
-                <Text style={styles.title}>{note.title}</Text>
-                <Text style={styles.description}>{note.description}</Text>
+                <TouchableOpacity onPress={()=>{
+                    openEditModal(); 
+                    setisFocus(true);
+                }}>
+                    <Text style={styles.title}>{note.title}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=>{
+                    openEditModal();
+                    setisFocus(false);
+                }}>
+                    <Text style={styles.description}>{note.description}</Text>
+                </TouchableOpacity>
             </ScrollView>
 
             <View style={styles.btnContainer}>
@@ -89,12 +107,13 @@ const NoteDetail = (props)=>{
                         antIconName={'edit'} 
                         style={{backgroundColor:colors.Primary, marginBottom : 15}}/>
             </View>
-            
+
             <NoteInputModal 
                 isEdit={isEdit} note={note} 
                 onClose={handleOnClose} 
                 onSubmit={handleUpdate} 
-                visible={showModal}/>
+                visible={showModal}
+                isFocus={isFocus}/>
 
         </>
     )

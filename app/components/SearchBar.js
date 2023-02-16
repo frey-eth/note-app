@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
         borderRadius : 20,
         paddingLeft : 15,
         fontSize: 20,
+        paddingRight:30,
     },
     clearIcon:{
         position :"absolute",

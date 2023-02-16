@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Modal,Text, StatusBar, TextInput, TouchableWithoutFeedback,Keyboard } from "react-native";
+import { View, StyleSheet, Modal,Text, StatusBar, TextInput, TouchableWithoutFeedback,Keyboard, KeyboardAvoidingView } from "react-native";
 import colors from "../misc/colors";
 import RoundIconBtn from "./RoundIconBtn";
 
-const NoteInputModal = ({visible, onClose,onSubmit,note,isEdit})=>{
+const NoteInputModal = ({visible, onClose,onSubmit,note,isEdit,isFocus})=>{
 
     const [title,setTitle] = useState('')
     const [description,setDescription] = useState('')
@@ -65,14 +65,29 @@ const NoteInputModal = ({visible, onClose,onSubmit,note,isEdit})=>{
                         value={title}
                         onChangeText={(text)=>handleOnchangeText(text,'title')} 
                         placeholder="Title" 
-                        style={[styles.input,styles.title]}/>
+                        style={[styles.input,styles.title]}
+                        autoFocus={isFocus}
+                        multiline={true}/>
                     <TextInput
                         value={description}
                         onChangeText={(text)=>handleOnchangeText(text,'description')} 
                         multiline
                         placeholder="Note" 
-                        style={[styles.input,styles.description]}/>
-
+                        style={[styles.input,styles.description]}
+                        autoFocus={!isFocus}
+                        multiline={true}/>
+                    <KeyboardAvoidingView behavior='position'>
+                            <View  style={styles.btnUndoContainer}>
+                            <RoundIconBtn
+                                onPress={closeModal}
+                                size={10}
+                                antIconName={'close'}/>
+                            <RoundIconBtn
+                                onPress={handleSubmit}
+                                size={10}
+                                antIconName={'check'}/>
+                            </View>
+                    </KeyboardAvoidingView>
                 </View>
 
                 <TouchableWithoutFeedback onPress={handleModalClose}>
@@ -91,15 +106,21 @@ const styles = StyleSheet.create({
     },
     input:{
         fontSize : 20,
-        color: colors.Dark
+        color: colors.Dark,
+
     },
     title:{
-        height: 30,
-        marginBottom :15,
+        // height: 30,
+        marginBottom :20,
         fontWeight:'bold',
+        fontSize:25,
+        textAlign:'center',
     },
     description:{
+        textAlign:'left',
+        textAlignVertical:'top',
         height: '70%',
+
     },
     modelBG:{
         flex:1,
@@ -109,7 +130,12 @@ const styles = StyleSheet.create({
         flexDirection :'row',
         justifyContent:'flex-end',
         paddingVertical:15,
-    }
+    },
+    btnUndoContainer:{
+        flexDirection :'row-reverse',
+        marginBottom:0,
+        // justifyContent:'flex-end',
+    },
 
 })
 

@@ -8,6 +8,7 @@ import NoteScreen from './app/screens/NoteScreen';
 import NoteDetail from './app/components/NoteDetail';
 import NoteProvider from './app/contexts/NoteProvider';
 
+
 const Stack = createNativeStackNavigator()
 export default function App() {
   const [user,setUser] = useState({})
@@ -28,7 +29,7 @@ export default function App() {
   if(isAppFirstTimeOpen) return <Intro onFinish={findUser}/>
   return (
   <NavigationContainer>
-    <NoteProvider >
+    <NoteProvider>
         <Stack.Navigator screenOptions={{headerTitle:'',headerTransparent:true}}>
           <Stack.Screen component={RenderNoteScreen} name='NoteScreen '/>
           <Stack.Screen component={NoteDetail} name='NoteDetail'/>
