@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     },
     title:{
         fontSize : 25,
-        color: colors.Primary,
+        color: '#1e2870',
         fontWeight : 'bold'
     },
     description:{
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     btnContainer:{
         position : 'absolute',
         right: 15,
-        bottom : 50
+        bottom : 30
     }
 })
 
