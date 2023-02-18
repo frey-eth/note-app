@@ -8,8 +8,7 @@ const SearchBar =({containerStyle,value,onClear,onChangeText})=>{
             <TextInput  value={value} 
                         onChangeText={onChangeText} 
                         style={styles.searchBar} 
-                        placeholder='Search notes...'
-                        />
+                        placeholder='Search here...'/>
             {value?<AntDesign 
                         name="close" 
                         size={20} 
@@ -30,7 +29,7 @@ const styles = StyleSheet.create({
         height: 40,
         borderRadius : 20,
         paddingLeft : 15,
-        fontSize: 16,
+        fontSize: 20,
         paddingRight:30,
     },
     clearIcon:{

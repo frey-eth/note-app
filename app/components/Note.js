@@ -28,23 +28,19 @@ const Note = ({item,selected, onLongPress, onPress , searchText})=>{
     </>)
 }
 
-
 const styles= StyleSheet.create({
     container:{
         borderWidth: 2,
         borderRadius: 10,
-        marginTop: 15,
+        marginTop: 20,
         borderColor : colors.Primary,
         overflow:'hidden',
+
     },
     title:{
-        borderBottomWidth: 0.5,
-        borderBottomColor: "#6476fb",
-        borderBottomLeftRadius: 10,
-        borderBottomRightRadius: 20,
         fontWeight:'bold',
         fontSize: 18,
-        color:'#1e2870',
+        color:'grey',
         paddingHorizontal: 15,
         paddingHorizontal : 10,
     },
@@ -52,15 +48,13 @@ const styles= StyleSheet.create({
         fontSize :15,
         paddingHorizontal: 15,
         paddingHorizontal : 10,
-        color: 'gray',
     },
     overlay:{
         position:'absolute',
         width:'100%',height:'100%',
-        borderColor : colors.Primary,
-        backgroundColor: '#212fbf',
-        opacity: 0.2,
+        borderColor:'red',
         borderWidth:3, 
+        top:0, left:0,
         borderRadius:10,
     },
 })

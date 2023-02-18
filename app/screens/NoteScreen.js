@@ -32,9 +32,9 @@ const NoteScreen = ({user, navigation})=>{
 
     const findGreet= () => {
         const hrs = new Date().getHours()
-        if(hrs==0||hrs < 12) return setGreet('morning,')
-        if(hrs==1||hrs < 17) return setGreet('afternoon,')
-        else setGreet('evening,')
+        if(hrs==0||hrs < 12) return setGreet('Morning')
+        if(hrs==1||hrs < 17) return setGreet('Afternoon')
+        else setGreet('Evening')
     }
     useEffect(()=>{
         findGreet();
@@ -117,7 +117,7 @@ const NoteScreen = ({user, navigation})=>{
         <StatusBar backgroundColor={colors.Light} hidden={false}></StatusBar>
         <TouchableWithoutFeedback onPress={handleOutSidePress}>
             <View style={styles.container}>
-                <Text style={styles.header}>{`Good ${greet} ${user.name}!`}</Text>
+                <Text style={styles.header}>{`Good ${greet} ${user.name}`}</Text>
                 {notes.length? (<SearchBar
                                     onClear={handleOnClear}
                                     value={searchQuery}
@@ -176,16 +176,13 @@ const NoteScreen = ({user, navigation})=>{
     )
 }
 
-
 const styles = StyleSheet.create({
     container:{
         paddingHorizontal: 20,
         flex :1,
-        
-        //backgroundColor:'red',
+        // backgroundColor:'red',
     },
     header:{
-        marginTop: 10,
         fontSize : 25,
         fontWeight: 'bold'
     },
@@ -203,12 +200,12 @@ const styles = StyleSheet.create({
     },
     addBtn:{
         position :'absolute',
-        right : 20,
-        bottom: 40,
+        right : 15,
+        bottom: 50,
         zIndex: 1
     },
     deletebtn:{
-        backgroundColor:colors.Error,
+        backgroundColor:'red',
     },
     shareanddlt:{
         // backgroundColor:'aqua',

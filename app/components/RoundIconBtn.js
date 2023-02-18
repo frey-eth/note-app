@@ -7,7 +7,7 @@ const RoundIconBtn =({antIconName,size,color, onPress,style})=>{
     return <AntDesign 
             name={antIconName} 
             size={size||24} 
-            color={colors.Light}
+            color={colors.Dark}
             style={[styles.icon,{...style}]}
             onPress={onPress}
             />
