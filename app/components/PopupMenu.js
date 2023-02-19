@@ -14,7 +14,7 @@ const PopupMenu=(count)=>{
     const options=[
         {
             title:'Notes',
-            icon:'note',
+            icon:'file',
             action:() => count.count(1)
 
         },
