@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
         justifyContent:'center'
     },
     searchBar:{
-        borderWidth : 1,
-        borderColor : colors.Primary,
+        borderWidth : 3,
+        borderColor : 'lightskyblue',
         height: 40,
         borderRadius : 20,
         paddingLeft : 15,

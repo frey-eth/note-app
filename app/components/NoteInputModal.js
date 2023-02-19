@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Modal,Text, StatusBar, TextInput, TouchableWithoutFeedback,Keyboard, KeyboardAvoidingView } from "react-native";
+import { View, StyleSheet, Modal,Text,Dimensions, StatusBar, TextInput, TouchableWithoutFeedback,Keyboard, KeyboardAvoidingView } from "react-native";
 import colors from "../misc/colors";
 import RoundIconBtn from "./RoundIconBtn";
 
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const NoteInputModal = ({visible, onClose,onSubmit,note,isEdit,isFocus})=>{
 
     const [title,setTitle] = useState('')
@@ -50,7 +53,7 @@ const NoteInputModal = ({visible, onClose,onSubmit,note,isEdit,isFocus})=>{
             <Modal visible={visible} animationType='fade'>
                 <View style={styles.container}>
                     <View style={styles.btnContainer}>
-                            {title.trim()||description.trim()?
+                            {/* {title.trim()||description.trim()?
                             <RoundIconBtn
                                 onPress={closeModal}
                                 size={15}
@@ -59,7 +62,7 @@ const NoteInputModal = ({visible, onClose,onSubmit,note,isEdit,isFocus})=>{
                                 style={{marginLeft:15}}
                                 onPress={handleSubmit}
                                 size={15}
-                                antIconName={'check'}/>
+                                antIconName={'check'}/> */}
                     </View>
                     <TextInput
                         value={title}
@@ -76,16 +79,18 @@ const NoteInputModal = ({visible, onClose,onSubmit,note,isEdit,isFocus})=>{
                         style={[styles.input,styles.description]}
                         autoFocus={!isFocus}
                         multiline={true}/>
-                    <KeyboardAvoidingView behavior='position'>
+                    <KeyboardAvoidingView>
                             <View  style={styles.btnUndoContainer}>
                             <RoundIconBtn
                                 onPress={closeModal}
-                                size={10}
-                                antIconName={'close'}/>
+                                size={15}
+                                antIconName={'close'}
+                                style={{backgroundColor:'lightskyblue'}}/>
                             <RoundIconBtn
                                 onPress={handleSubmit}
-                                size={10}
-                                antIconName={'check'}/>
+                                size={15}
+                                antIconName={'check'}
+                                style={{marginRight:windowWidth*0.03,backgroundColor:'lightskyblue'}}/>
                             </View>
                     </KeyboardAvoidingView>
                 </View>
@@ -135,6 +140,8 @@ const styles = StyleSheet.create({
         flexDirection :'row-reverse',
         marginBottom:0,
         // justifyContent:'flex-end',
+        width:'100%',
+        // backgroundColor:'red'
     },
 
 })

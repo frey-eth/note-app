@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView,Text,View, StyleSheet, Alert, TouchableOpacity } from "react-native";
+import { ScrollView,Text,View,Linking, StyleSheet, Alert, TouchableOpacity } from "react-native";
 import { useHeaderHeight } from '@react-navigation/elements';
 import colors from "../misc/colors";
 import RoundIconBtn from "./RoundIconBtn";
@@ -76,6 +76,8 @@ const NoteDetail = (props)=>{
         setShowModal(true)
     }
 
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+
 
     return(
         <>
@@ -93,7 +95,16 @@ const NoteDetail = (props)=>{
                     openEditModal();
                     setisFocus(false);
                 }}>
-                    <Text style={styles.description}>{note.description}</Text>
+
+            <Text>
+                {note.description.split(urlRegex).map((text, index) => (
+                /\b((?:https?|ftp|file):\/\/[-a-zA-Z0-9+&@#\/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#\/%=~_|])/gi.test(text) ?
+
+                <Text style={{color:'blue',textDecorationLine: 'underline',}} key={index} onPress={() => Linking.openURL(text)} >
+                    {text}
+                </Text> : text
+                ))}
+            </Text>
                 </TouchableOpacity>
             </ScrollView>
 
@@ -101,11 +112,11 @@ const NoteDetail = (props)=>{
                     <RoundIconBtn
                         onPress={()=>displayDeleteAlert()} 
                         antIconName={'delete'} 
-                        style={{backgroundColor:colors.Error, marginBottom : 15}}/>
+                        style={{backgroundColor:'lightskyblue', marginBottom : 15}}/>
                     <RoundIconBtn
                         onPress={()=>openEditModal()} 
                         antIconName={'edit'} 
-                        style={{backgroundColor:colors.Primary, marginBottom : 15}}/>
+                        style={{backgroundColor:'lightskyblue', marginBottom : 15}}/>
             </View>
 
             <NoteInputModal 
@@ -126,11 +137,12 @@ const styles = StyleSheet.create({
     },
     title:{
         fontSize : 25,
-        color: colors.Primary,
+        color: 'seagreen',
         fontWeight : 'bold'
     },
     description:{
         fontSize : 20,
+        color: 'seagreen',
         opacity : 0.6
     },
     time:{

@@ -33,7 +33,7 @@ const styles= StyleSheet.create({
         borderWidth: 2,
         borderRadius: 10,
         marginTop: 20,
-        borderColor : colors.Primary,
+        borderColor : 'lightskyblue',
         overflow:'hidden',
 
     },
@@ -52,8 +52,7 @@ const styles= StyleSheet.create({
     overlay:{
         position:'absolute',
         width:'100%',height:'100%',
-        borderColor:'red',
-        borderWidth:3, 
+        backgroundColor:'rgba(0, 90, 110, 0.5)',
         top:0, left:0,
         borderRadius:10,
     },

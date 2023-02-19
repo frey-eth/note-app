@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { View, StyleSheet,SafeAreaView, StatusBar,Text, TouchableWithoutFeedback, Keyboard, FlatList,Dimensions } from "react-native";
+import { View, StyleSheet,SafeAreaView, StatusBar,Text, TouchableWithoutFeedback, Keyboard, FlatList,Dimensions, TouchableOpacity } from "react-native";
 import Note from "../components/Note";
 import NoteInputModel from "../components/NoteInputModal";
 import RoundIconBtn from "../components/RoundIconBtn";
@@ -11,6 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { printToFileAsync } from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 import BottomPopup from "../components/BottomPopup";
+import PopupMenu from "../components/PopupMenu";
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -24,11 +25,14 @@ const NoteScreen = ({user, navigation})=>{
     const [selectedItems, setselectedItems] = useState([]);
     const [showBottomPopup, setshowBottomPopup] = useState(false);
     const [getgift, setgift] = useState({});
+    const [mess, setmess] = useState(1);
+    const [sortlist, setsortlist] = useState(true);
 
     const popupList = [
         { id: 0, name: 'Pdf' },
         { id: 1, name: 'Message' },
     ]
+
 
     const findGreet= () => {
         const hrs = new Date().getHours()
@@ -40,8 +44,33 @@ const NoteScreen = ({user, navigation})=>{
         findGreet();
     },[])
 
+
+    const reverseData = data => {
+        data=data.filter(d=>d.type===1)
+        return data.sort((a, b) => {
+          const aInt = parseInt(a.time);
+          const bInt = parseInt(b.time);
+          if(sortlist){
+            if (aInt < bInt) return 1;
+            if (aInt == bInt) return 0;
+            if (aInt > bInt) return -1;
+          }
+          else{
+            if (aInt > bInt) return 1;
+            if (aInt == bInt) return 0;
+            if (aInt < bInt) return -1;
+          }
+    });};
+
+    const reverseNotes = reverseData(notes);
+
+    const handleMess = (message) => {
+        setmess(message);
+        if(message===2)
+            navigation.navigate('Recycle')
+    };
     const handleOnSubmit= async (title,description)=>{
-        const note = {id: Date.now(),title,description, time:Date.now()}
+        const note = {id: Date.now(),title,description, time:Date.now(),type:1}
         const updatedNotes = [...notes,note]
         setNotes(updatedNotes)
         await AsyncStorage.setItem('notes',JSON.stringify(updatedNotes))
@@ -102,9 +131,11 @@ const NoteScreen = ({user, navigation})=>{
 
     const deleteMultiNodes=async()=>{
         if(!selectedItems.length) return;
-        const newNotes=notes.filter((n)=>!selectedItems.includes(n.id));
-        setNotes(newNotes);
-
+        for(let i=0;i<notes.length;i++)
+            if(selectedItems.includes(notes[i].id))
+                notes[i].type=2
+        const newNotes=notes;
+        // setNotes(newNotes);
         await AsyncStorage.setItem('notes', JSON.stringify(newNotes))
         setselectedItems([]);
     }
@@ -117,20 +148,32 @@ const NoteScreen = ({user, navigation})=>{
         <StatusBar backgroundColor={colors.Light} hidden={false}></StatusBar>
         <TouchableWithoutFeedback onPress={handleOutSidePress}>
             <View style={styles.container}>
-                <Text style={styles.header}>{`Good ${greet} ${user.name}`}</Text>
+                <View style={{alignItems:'center'}}>
+                <Text style={styles.header}>{`Good ${greet} ${user.name}`}</Text></View>
+                
+                <View style={{flexDirection:'row-reverse'}}>
+                <PopupMenu count={handleMess}></PopupMenu></View>
+
                 {notes.length? (<SearchBar
                                     onClear={handleOnClear}
                                     value={searchQuery}
                                     onChangeText={handleOnSearchInput} 
                                     containerStyle={{marginVertical:15}}
                                 />):null}
+                <View style={{flexDirection:'row',justifyContent:'flex-end'}}>
+                    <Text style={{fontSize:20,fontWeight:'600'}}>Sort by time | </Text>
+                    <TouchableOpacity onPress={()=>setsortlist(!sortlist)}>
+                        <Text style={{fontSize:20,fontWeight:'500'}}>{sortlist?'Lastest':'Earliest'}</Text>
+                    </TouchableOpacity>
+                </View>
                 {resultNotFound
                     ? <NotFound/>
                     : <FlatList 
-                        data={notes} 
+                        data={reverseNotes} 
                         keyExtractor={item=>item.id.toString()} 
                         renderItem={({item})=><Note onLongPress={()=>{handleOnLongPress(item)}} 
                                                     onPress={()=>handleOnPress(item)} 
+                                                    
                                                     item={item}
                                                     selected={getSelectedItems(item)}
                                                     searchText={searchQuery}/>}/>}
@@ -146,7 +189,7 @@ const NoteScreen = ({user, navigation})=>{
             (<View style={styles.shareanddlt}>
                 {selectedItems.length ===1&&<RoundIconBtn
                     onPress={openPopup}
-                    antIconName='plus'
+                    antIconName='link'
                     style={{...styles.deletebtn}}></RoundIconBtn>}
                 <RoundIconBtn 
                     onPress={deleteMultiNodes}
@@ -156,12 +199,12 @@ const NoteScreen = ({user, navigation})=>{
             :
             (<RoundIconBtn 
                 onPress={()=>{setModalVisible(true)}} 
-                antIconName='plus' 
+                antIconName='edit' 
                 style={styles.addBtn}/>)}
 
         <BottomPopup
             show={showBottomPopup}
-            title={"Demo Popup"}
+            title={"Share with"}
             animationType={"slide"}
             closePopup={closePopup}
             data={popupList}
@@ -178,13 +221,15 @@ const NoteScreen = ({user, navigation})=>{
 
 const styles = StyleSheet.create({
     container:{
+        paddingTop:windowHeight*0.02,
         paddingHorizontal: 20,
         flex :1,
         // backgroundColor:'red',
     },
     header:{
         fontSize : 25,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+
     },
     emptyHeaderContainer:{
         flex: 1,
@@ -202,17 +247,18 @@ const styles = StyleSheet.create({
         position :'absolute',
         right : 15,
         bottom: 50,
-        zIndex: 1
+        zIndex: 1,
+        backgroundColor:'pink',
     },
     deletebtn:{
-        backgroundColor:'red',
+        backgroundColor:'lightskyblue',
     },
     shareanddlt:{
         // backgroundColor:'aqua',
         // flexDirection:'row',
         marginBottom:0.1 * windowHeight,
-        marginLeft:0.85 * windowWidth,
-        marginRight:0.01 * windowWidth,
+        marginLeft:0.83 * windowWidth,
+        marginRight:0.03 * windowWidth,
     }
 
 })

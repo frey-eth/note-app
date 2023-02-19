@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import NoteScreen from './app/screens/NoteScreen';
 import NoteDetail from './app/components/NoteDetail';
 import NoteProvider from './app/contexts/NoteProvider';
+import Recycle from './app/screens/Recycle';
 
 
 const Stack = createNativeStackNavigator()
@@ -33,6 +34,7 @@ export default function App() {
         <Stack.Navigator screenOptions={{headerTitle:'',headerTransparent:true}}>
           <Stack.Screen component={RenderNoteScreen} name='NoteScreen '/>
           <Stack.Screen component={NoteDetail} name='NoteDetail'/>
+          <Stack.Screen component={Recycle} name='Recycle'/>
         </Stack.Navigator>
     </NoteProvider>
   </NavigationContainer>
