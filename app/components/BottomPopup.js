@@ -16,34 +16,34 @@ export default class BottomPopup extends Component {
     }
 
     generatePdf = async (idx) => {
-        const {gift}=this.props;
-        if(idx==0){
+      const { gift } = this.props;
+      if (idx === 0) {
         const file = await printToFileAsync({
-            html:`<html>
-            <head>
-            <title>${gift[0].title}</title>
-            </head>
-            <body>
-            
-            <h1>${gift[0].title}</h1>
-            <p>${gift[0].description}</p>
-            
-            </body>
-            </html>`,
-            base64 : false
-        });   
-        await shareAsync(file.uri);}
-        else
-            {
-                try {
-                  const result = await Share.share({
-                    message:
-                      `${gift[0].title}`+"\n"+`${gift[0].description}`,
-                  });
-                } catch (error) {
-                  Alert.alert(error.message);
-                }
-            }; 
+          html: `
+            <html>
+              <head>
+                <title>${gift[0].title}</title>
+              </head>
+              <body>
+                <h1>${gift[0].title}</h1>
+                <img src="${gift[0].imageUrl}" />
+                <p>${gift[0].description}</p>
+              </body>
+            </html>
+          `,
+          base64: false
+        });
+        await shareAsync(file.uri);
+      } else {
+        try {
+          const result = await Share.share({
+            message:
+              `${gift[0].title}` + '\n' + `${gift[0].description}`,
+          });
+        } catch (error) {
+          Alert.alert(error.message);
+        }
+      };
     };
 
     renderItem = ({ item, index }) => {  

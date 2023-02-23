@@ -8,8 +8,6 @@ import colors from "../misc/colors";
 import {useNotes} from '../contexts/NoteProvider'
 import NotFound from "../components/NotFound";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { printToFileAsync } from 'expo-print';
-import { shareAsync } from 'expo-sharing';
 import BottomPopup from "../components/BottomPopup";
 import PopupMenu from "../components/PopupMenu";
 
@@ -69,8 +67,8 @@ const NoteScreen = ({user, navigation})=>{
         if(message===2)
             navigation.navigate('Recycle')
     };
-    const handleOnSubmit= async (title,description)=>{
-        const note = {id: Date.now(),title,description, time:Date.now(),type:1}
+    const handleOnSubmit= async (title,description,image)=>{
+        const note = {id: Date.now(),title,description,image, time:Date.now(),type:1}
         const updatedNotes = [...notes,note]
         setNotes(updatedNotes)
         await AsyncStorage.setItem('notes',JSON.stringify(updatedNotes))

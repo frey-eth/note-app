@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Modal,Text,Dimensions, StatusBar, TextInput, TouchableWithoutFeedback,Keyboard, KeyboardAvoidingView } from "react-native";
+import { View,Image, StyleSheet, Modal,Text,Dimensions, StatusBar, TextInput, TouchableWithoutFeedback,Keyboard, KeyboardAvoidingView, Alert, TouchableOpacity } from "react-native";
 import colors from "../misc/colors";
 import RoundIconBtn from "./RoundIconBtn";
-
+import * as ImagePicker from 'expo-image-picker';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -10,16 +10,35 @@ const NoteInputModal = ({visible, onClose,onSubmit,note,isEdit,isFocus})=>{
 
     const [title,setTitle] = useState('')
     const [description,setDescription] = useState('')
+    const [image,setImage] = useState(null)
+    
     const handleModalClose=()=>{
         Keyboard.dismiss();
     }
-
-    useEffect(()=> {
-        if(isEdit){
-            setTitle(note.title)
-            setDescription(note.description)
+    useEffect(() => {
+        if (isEdit) {
+          setTitle(note.title);
+          setDescription(note.description);
+          setImage(note.image)
         }
-    },[isEdit])
+      }, [isEdit]);
+    
+    
+
+    const handleImagePicker = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          allowsEditing: true,
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          aspect: [4, 3],
+          quality: 1,
+        });
+        
+        if (!result.canceled) {
+            setImage(result.assets[0].uri)
+            const newNote = {...note, image: result.assets[0].uri};
+            setNote(newNote);
+        }
+      }
 
     const handleOnchangeText=(text,valueFor)=>{
         if(valueFor==='title')setTitle(text)
@@ -30,11 +49,12 @@ const NoteInputModal = ({visible, onClose,onSubmit,note,isEdit,isFocus})=>{
         if(!title.trim()&&!description.trim())return onClose()
         
         if(isEdit){
-            onSubmit(title,description,Date.now())
+            onSubmit(title,description,Date.now(),image)
         }else{
             onSubmit(title,description)
             setTitle('')
             setDescription('')
+            setImage(null);
         }
         onClose()
     }
@@ -52,18 +72,27 @@ const NoteInputModal = ({visible, onClose,onSubmit,note,isEdit,isFocus})=>{
             <StatusBar hidden/>
             <Modal visible={visible} animationType='fade'>
                 <View style={styles.container}>
-                    <View style={styles.btnContainer}>
-                            {/* {title.trim()||description.trim()?
+                    <KeyboardAvoidingView>
+                            <View  style={styles.btnUndoContainer}>
+                            <RoundIconBtn
+                                onPress={handleSubmit}
+                                size={15}
+                                antIconName={'check'}
+                                style={{marginLeft:windowWidth*0.03,backgroundColor:'lightskyblue'}}/>
+
                             <RoundIconBtn
                                 onPress={closeModal}
                                 size={15}
-                                antIconName={'close'}/>:null}
-                            <RoundIconBtn
-                                style={{marginLeft:15}}
-                                onPress={handleSubmit}
+                                antIconName={'close'}
+                                style={{backgroundColor:'lightskyblue'}}/>
+                            </View>
+                    </KeyboardAvoidingView>
+                    <RoundIconBtn
+                                style={{width:45}}
+                                onPress={handleImagePicker}
                                 size={15}
-                                antIconName={'check'}/> */}
-                    </View>
+                                antIconName={'camera'}
+                               />
                     <TextInput
                         value={title}
                         onChangeText={(text)=>handleOnchangeText(text,'title')} 
@@ -71,28 +100,29 @@ const NoteInputModal = ({visible, onClose,onSubmit,note,isEdit,isFocus})=>{
                         style={[styles.input,styles.title]}
                         autoFocus={isFocus}
                         multiline={true}/>
+                        {image && (
+                            <>
+                            <View>
+                                <TouchableOpacity onPress={handleImagePicker}>
+                                <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+                                </TouchableOpacity>
+                                
+                                <RoundIconBtn
+                                onPress={() => setImage(null)}
+                                size={15}
+                                antIconName={'delete'}
+                                style={{ position: 'absolute', top: 0, right: 0 }}
+                                />
+                            </View>
+                            </>
+                        )}
                     <TextInput
                         value={description}
                         onChangeText={(text)=>handleOnchangeText(text,'description')} 
-                        multiline
                         placeholder="Note" 
                         style={[styles.input,styles.description]}
                         autoFocus={!isFocus}
-                        multiline={true}/>
-                    <KeyboardAvoidingView>
-                            <View  style={styles.btnUndoContainer}>
-                            <RoundIconBtn
-                                onPress={closeModal}
-                                size={15}
-                                antIconName={'close'}
-                                style={{backgroundColor:'lightskyblue'}}/>
-                            <RoundIconBtn
-                                onPress={handleSubmit}
-                                size={15}
-                                antIconName={'check'}
-                                style={{marginRight:windowWidth*0.03,backgroundColor:'lightskyblue'}}/>
-                            </View>
-                    </KeyboardAvoidingView>
+                        multiline={true}/>      
                 </View>
 
                 <TouchableWithoutFeedback onPress={handleModalClose}>

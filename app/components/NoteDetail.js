@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { ScrollView,Text,View,Linking, StyleSheet, Alert, TouchableOpacity } from "react-native";
+import { ScrollView,Image,Text,View,Linking, StyleSheet, Alert, TouchableOpacity } from "react-native";
 import { useHeaderHeight } from '@react-navigation/elements';
-import colors from "../misc/colors";
 import RoundIconBtn from "./RoundIconBtn";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useNotes} from '../contexts/NoteProvider'
 import NoteInputModal from "./NoteInputModal";
-import BottomPopup from "./BottomPopup";
 
 
 const formatDate = (ms)=>{
@@ -52,24 +50,37 @@ const NoteDetail = (props)=>{
         })
     }
 
-    const handleUpdate =async(title,description,time)=>{
-        const result =await AsyncStorage.getItem('notes')
-        let notes= []
-        if(result!==null) notes = JSON.parse(result)
-
-        const newNotes=notes.filter(n=>{
-            if(n.id===note.id){
-                n.title = title
-                n.description = description
-                n.isUpdated = true
-                n.time = time
-                setNote(n)
-            }
-            return n
-        })
-        setNotes(newNotes)
-        await AsyncStorage.setItem('notes',JSON.stringify(newNotes))
-    }
+    const handleUpdate = async (title, description, time, image) => {
+        const result = await AsyncStorage.getItem('notes');
+        let notes = [];
+        if (result !== null) notes = JSON.parse(result);
+      
+        const newNotes = notes.map(n => {
+          if (n.id === note.id) {
+            n.title = title;
+            n.description = description;
+            n.isUpdated = true;
+            n.time = time;
+            n.image = image;
+            return n;
+          } else {
+            return n;
+          }
+        });
+      
+        setNote({
+          ...note,
+          title,
+          description,
+          isUpdated: true,
+          time,
+          image,
+        });
+      
+        setNotes(newNotes);
+        await AsyncStorage.setItem('notes', JSON.stringify(newNotes));
+      };
+      
     const handleOnClose =()=>setShowModal(false)
     const openEditModal = ()=>{
         setIsEdit(true)
@@ -90,6 +101,7 @@ const NoteDetail = (props)=>{
                     setisFocus(true);
                 }}>
                     <Text style={styles.title}>{note.title}</Text>
+                    {note.image && <Image source={{uri: note.image}} style={{width: 200, height: 200}} />}
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>{
                     openEditModal();
