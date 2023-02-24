@@ -25,6 +25,7 @@ const NoteScreen = ({user, navigation})=>{
     const [getgift, setgift] = useState({});
     const [mess, setmess] = useState(1);
     const [sortlist, setsortlist] = useState(true);
+    const [temp, settemp] = useState();
 
     const popupList = [
         { id: 0, name: 'Pdf' },
@@ -44,7 +45,10 @@ const NoteScreen = ({user, navigation})=>{
 
 
     const reverseData = data => {
-        data=data.filter(d=>d.type===1)
+        if(mess>0)
+            data=data.filter(d=>d.type<2)
+        else 
+            data=data.filter(d=>d.type<1)
         return data.sort((a, b) => {
           const aInt = parseInt(a.time);
           const bInt = parseInt(b.time);
@@ -58,6 +62,7 @@ const NoteScreen = ({user, navigation})=>{
             if (aInt == bInt) return 0;
             if (aInt < bInt) return -1;
           }
+        settemp(0)
     });};
 
     const reverseNotes = reverseData(notes);

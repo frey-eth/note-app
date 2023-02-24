@@ -26,7 +26,7 @@ export default class BottomPopup extends Component {
               </head>
               <body>
                 <h1>${gift[0].title}</h1>
-                <img src="${gift[0].imageUrl}" />
+                <img src="${gift[0].image}" />
                 <p>${gift[0].description}</p>
               </body>
             </html>

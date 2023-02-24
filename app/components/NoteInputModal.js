@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     description:{
         textAlign:'left',
         textAlignVertical:'top',
-        height: '70%',
+        height: '58%',
 
     },
     modelBG:{
