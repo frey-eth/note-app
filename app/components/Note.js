@@ -26,13 +26,13 @@ const Note = ({item,selected, onLongPress, onPress , searchText})=>{
                 numberOfLines={2} 
                 style={styles.title}
                 textToHighlight={title}
-                highlightStyle={{backgroundColor:'yellow'}}></HighlightText>
+                highlightStyle={{backgroundColor:'white'}}></HighlightText>
             <HighlightText 
                 searchWords={searchQuery} 
                 numberOfLines={3} 
                 style={styles.description}
                 textToHighlight={description}
-                highlightStyle={{backgroundColor:'yellow'}}></HighlightText>
+                highlightStyle={{backgroundColor:'white'}}></HighlightText>
             {selected && <View style={styles.overlay}></View>}
         </TouchableOpacity>
         {bgcolor?

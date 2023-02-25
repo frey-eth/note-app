@@ -16,7 +16,7 @@ const Intro=({onFinish})=>{
         <> 
         <StatusBar hidden/>
         <View style={styles.container}>
-            <Text style={styles.inputTitle}>Enter your Name to Continue</Text>
+            <Text style={styles.inputTitle}>Enter your name to continue</Text>
             <TextInput 
                 style={styles.textInput} 
                 placeholder='Enter your name'

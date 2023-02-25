@@ -119,13 +119,13 @@ const NoteInputModal = ({visible, onClose,onSubmit,note,isEdit,isFocus})=>{
                                 onPress={handleSubmit}
                                 size={15}
                                 antIconName={'check'}
-                                style={{marginLeft:windowWidth*0.03,backgroundColor:'lightskyblue'}}/>
+                                style={{marginLeft:windowWidth*0.03,backgroundColor:colors.Primary}}/>
 
                             <RoundIconBtn
                                 onPress={closeModal}
                                 size={15}
                                 antIconName={'close'}
-                                style={{backgroundColor:'lightskyblue'}}/>
+                                style={{backgroundColor:colors.Primary}}/>
                             </View>
                     </KeyboardAvoidingView>
                     <RoundIconBtn
@@ -164,8 +164,8 @@ const NoteInputModal = ({visible, onClose,onSubmit,note,isEdit,isFocus})=>{
                         <TouchableOpacity onPress={() => handleFontChange('Arial')}>
                         <Text style={styles.fontBtn}>Arial</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => handleFontChange('Roboto')}>
-                        <Text style={styles.fontBtn}>Roboto</Text>
+                        <TouchableOpacity onPress={() => handleFontChange('TimesNewRoman')}>
+                        <Text style={styles.fontBtn}>TimesNewRoman</Text>
                         </TouchableOpacity>
                     </View>
                     <TextInput

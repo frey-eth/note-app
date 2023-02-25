@@ -31,7 +31,7 @@ const PopupMenu=(count)=>{
     ]
     return<>
     <TouchableOpacity onPress={()=>setvisible(true)}>
-        <Icon name='plus-circle' size={50} color='pink'></Icon>
+        <Icon name='plus-circle' size={50} color='#6476fb'></Icon>
     </TouchableOpacity>
     <Modal transparent visible={visible}>
         <SafeAreaView style={{flex:1}}
@@ -40,7 +40,7 @@ const PopupMenu=(count)=>{
                 {options.map((op,i)=>(
                     <TouchableOpacity style={[styles.option,{ borderBottomWidth:i===options.length-1?0:1}]} key={i} onPress={op.action}>
                         <Text style={{fontSize:18,fontWeight:'600'}}>{op.title}</Text>
-                        <Icon name={op.icon} size={30} color='pink' style={{marginLeft:windowWidth*0.1}}></Icon>
+                        <Icon name={op.icon} size={30} color='#6476fb' style={{marginLeft:windowWidth*0.1}}></Icon>
                     </TouchableOpacity>
                 ))}
             </View>
@@ -53,7 +53,7 @@ const PopupMenu=(count)=>{
 const styles=StyleSheet.create({
     popup:{
         borderRadius:10,
-        borderColor:'pink',
+        borderColor:colors.Primary,
         borderWidth:2,
         backgroundColor:'#fff',
         paddingHorizontal:windowWidth*0.04,
@@ -67,7 +67,7 @@ const styles=StyleSheet.create({
         justifyContent:'space-between',
         alignItems:'center',
         paddingVertical:windowHeight*0.01,
-        borderBottomColor:'pink',
+        borderBottomColor:colors.Primary,
     }
 })
 

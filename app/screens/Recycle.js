@@ -52,12 +52,12 @@ const Recycle=()=>{
     const handlerestore = (item)=>{
         Alert.alert('Restore?', '',[
             {
-                text: 'Ok',
+                text: 'Yes',
                 onPress:()=>restore(item)
             },
             {
                 text: 'No',
-                onPress: ()=> console.log('no thanks')
+                onPress: ()=> console.log('No, thanks')
             }
         ],{
             cancelable: true
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
         zIndex: 1
     },
     deletebtn:{
-        backgroundColor:'red',
+        backgroundColor:colors.Error,
     },
     shareanddlt:{
         // backgroundColor:'aqua',

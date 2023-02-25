@@ -83,7 +83,7 @@ const NoteScreen = ({user, navigation})=>{
         if(selectedItems.length){
             return handleOnLongPress(note)
         }
-        navigation.navigate('NoteDetail',{note})
+        navigation.navigate('NoteDetails',{note})
     }
 
     const handleOnSearchInput =async (text)=>{
@@ -193,7 +193,7 @@ const NoteScreen = ({user, navigation})=>{
                 {selectedItems.length ===1&&<RoundIconBtn
                     onPress={openPopup}
                     antIconName='link'
-                    style={{...styles.deletebtn}}></RoundIconBtn>}
+                    style={{...styles.sharebtn}}></RoundIconBtn>}
                 <RoundIconBtn 
                     onPress={deleteMultiNodes}
                     antIconName='delete' 
@@ -217,7 +217,7 @@ const NoteScreen = ({user, navigation})=>{
         <NoteInputModel
             onSubmit={handleOnSubmit} 
             visible={modalVisible} 
-            onClose={()=>setModalVisible(false)}/>
+            onClose={()=>setModalVisible(false)} />
         </SafeAreaView>
     )
 }
@@ -252,10 +252,13 @@ const styles = StyleSheet.create({
         right : 20,
         bottom: 40,
         zIndex: 1,
-        backgroundColor:'pink',
+        backgroundColor:colors.Primary,
     },
     deletebtn:{
         backgroundColor:colors.Error,
+    },
+    sharebtn:{
+        backgroundColor:colors.Primary,
     },
     shareanddlt:{
         // backgroundColor:'aqua',

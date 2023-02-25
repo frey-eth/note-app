@@ -42,8 +42,8 @@ const NoteDetail = (props)=>{
                 onPress:()=>deleteNote()
             },
             {
-                text: 'No Thanks',
-                onPress: ()=> console.log('no thanks')
+                text: 'No',
+                onPress: ()=> console.log('No, thanks')
             }
         ],{
             cancelable: true
@@ -101,7 +101,7 @@ const NoteDetail = (props)=>{
                     setisFocus(true);
                 }}>
                     <Text style={styles.title}>{note.title}</Text>
-                    {note.image && <Image source={{uri: note.image}} style={{width: 200, height: 200}} />}
+                    {note.image && <Image source={{uri: note.image}} style={{width: 200, height: 200, backgroundColor:colors.Primary}} />}
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>{
                     openEditModal();
@@ -124,11 +124,11 @@ const NoteDetail = (props)=>{
                     <RoundIconBtn
                         onPress={()=>displayDeleteAlert()} 
                         antIconName={'delete'} 
-                        style={{backgroundColor:'lightskyblue', marginBottom : 15}}/>
+                        style={{backgroundColor:colors.Primary, marginBottom : 15}}/>
                     <RoundIconBtn
                         onPress={()=>openEditModal()} 
                         antIconName={'edit'} 
-                        style={{backgroundColor:'lightskyblue', marginBottom : 15}}/>
+                        style={{backgroundColor:colors.Primary, marginBottom : 15}}/>
             </View>
 
             <NoteInputModal 

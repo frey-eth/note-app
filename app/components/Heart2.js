@@ -7,7 +7,7 @@ const Heart2 =({antIconName,size,color, onPress,style})=>{
     return <AntDesign 
             name={antIconName} 
             size= {19}
-            color={colors.Love}
+            color={colors.Primary}
             style={[styles.icon,{...style}]}
             onPress={onPress}
             />
