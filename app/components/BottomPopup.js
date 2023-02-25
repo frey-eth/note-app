@@ -3,6 +3,7 @@ import { View, Text, Modal, Dimensions, Pressable, FlatList, TouchableOpacity, A
 import { printToFileAsync } from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as FileSystem from 'expo-file-system';
 
 
 export default class BottomPopup extends Component {
@@ -17,7 +18,14 @@ export default class BottomPopup extends Component {
 
     generatePdf = async (idx) => {
       const { gift } = this.props;
+      console.log(gift)
       if (idx === 0) {
+        let imageBase64 = null;
+        if (gift[0].image) {
+          const response = await FileSystem.readAsStringAsync(gift[0].image, {
+            encoding: FileSystem.EncodingType.Base64,
+          });
+          imageBase64 = `data:image/jpeg;base64,${response}`;}
         const file = await printToFileAsync({
           html: `
             <html>
@@ -26,7 +34,7 @@ export default class BottomPopup extends Component {
               </head>
               <body>
                 <h1>${gift[0].title}</h1>
-                <img src="${gift[0].image}" />
+                ${imageBase64 ? `<img src="${imageBase64}" />` : ''}
                 <p>${gift[0].description}</p>
               </body>
             </html>

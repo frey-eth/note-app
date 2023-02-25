@@ -85,7 +85,7 @@ const Recycle=()=>{
                         renderItem={({item})=><Note 
                                                     onPress={()=>handlerestore(item)} 
                                                     item={item}
-                                                    selected={[]}
+                                                    selected={false}
                                                     searchText={searchQuery}/>}/>}
                 
             </View>
