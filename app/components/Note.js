@@ -2,6 +2,8 @@ import {React,useState} from "react";
 import { View,Text, StyleSheet,Dimensions, TouchableOpacity } from "react-native";
 import colors from "../misc/colors";
 import RoundIconBtn from "./RoundIconBtn";
+import Heart2 from "./Heart2";
+import Heart1 from "./Heart1";
 import HighlightText from '@sanar/react-native-highlight-text';
 
 const Note = ({item,selected, onLongPress, onPress , searchText})=>{
@@ -34,10 +36,10 @@ const Note = ({item,selected, onLongPress, onPress , searchText})=>{
             {selected && <View style={styles.overlay}></View>}
         </TouchableOpacity>
         {bgcolor?
-        <RoundIconBtn onPress={handle} antIconName={'heart'} size={15}
-        style={styles.heart1}></RoundIconBtn>:
-        <RoundIconBtn onPress={handle} antIconName={'heart'} size={15}
-        style={styles.heart2}></RoundIconBtn>
+        <Heart1 onPress={handle} antIconName={'hearto'} size={19}
+        style={styles.heart1}></Heart1>:
+        <Heart2 onPress={handle} antIconName={'heart'} size={19}
+        style={styles.heart2}></Heart2>
 }
     </>)
 }
@@ -46,15 +48,19 @@ const styles= StyleSheet.create({
     container:{
         borderWidth: 2,
         borderRadius: 10,
-        marginTop: 20,
-        borderColor : 'lightskyblue',
+        marginTop: 15,
+        borderColor : colors.Primary,
         overflow:'hidden',
 
     },
     title:{
+        borderBottomWidth: 0.5,
+        borderBottomColor: "#6476fb",
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 20,
         fontWeight:'bold',
         fontSize: 18,
-        color:'grey',
+        color:'#1e2870',
         paddingHorizontal: 15,
         paddingHorizontal : 10,
     },
@@ -62,25 +68,26 @@ const styles= StyleSheet.create({
         fontSize :15,
         paddingHorizontal: 15,
         paddingHorizontal : 10,
+        color: 'gray',
     },
     overlay:{
         position:'absolute',
         width:'100%',height:'100%',
-        backgroundColor:'rgba(0, 90, 110, 0.5)',
-        top:0, left:0,
+        borderColor : colors.Primary,
+        backgroundColor: '#212fbf',
+        opacity: 0.2,
         borderRadius:10,
     },
     heart1:{
         position:'absolute',
-        right:0,
-        marginTop:10,
-        backgroundColor:'white',
+        right:6,
+        marginTop:17,
     },
     heart2:{
         position:'absolute',
-        right:0,
-        marginTop:10,
-        backgroundColor:'pink',
+        right:6,
+        marginTop:17,
+        
     }
 })
 

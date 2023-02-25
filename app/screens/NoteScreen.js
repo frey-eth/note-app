@@ -35,9 +35,9 @@ const NoteScreen = ({user, navigation})=>{
 
     const findGreet= () => {
         const hrs = new Date().getHours()
-        if(hrs==0||hrs < 12) return setGreet('Morning')
-        if(hrs==1||hrs < 17) return setGreet('Afternoon')
-        else setGreet('Evening')
+        if(hrs==0||hrs < 12) return setGreet('morning,')
+        if(hrs==1||hrs < 17) return setGreet('afternoon,')
+        else setGreet('evening,')
     }
     useEffect(()=>{
         findGreet();
@@ -152,7 +152,7 @@ const NoteScreen = ({user, navigation})=>{
         <TouchableWithoutFeedback onPress={handleOutSidePress}>
             <View style={styles.container}>
                 <View style={{alignItems:'center'}}>
-                <Text style={styles.header}>{`Good ${greet} ${user.name}`}</Text></View>
+                <Text style={styles.header}>{`Good ${greet} ${user.name}!`}</Text></View>
                 
                 <View style={{flexDirection:'row-reverse'}}>
                 <PopupMenu count={handleMess}></PopupMenu></View>
@@ -230,6 +230,7 @@ const styles = StyleSheet.create({
         // backgroundColor:'red',
     },
     header:{
+        marginTop:10,
         fontSize : 25,
         fontWeight: 'bold',
 
@@ -248,13 +249,13 @@ const styles = StyleSheet.create({
     },
     addBtn:{
         position :'absolute',
-        right : 15,
-        bottom: 50,
+        right : 20,
+        bottom: 40,
         zIndex: 1,
         backgroundColor:'pink',
     },
     deletebtn:{
-        backgroundColor:'lightskyblue',
+        backgroundColor:colors.Error,
     },
     shareanddlt:{
         // backgroundColor:'aqua',
